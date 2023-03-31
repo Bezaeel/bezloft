@@ -14,14 +14,14 @@ namespace bezloft.core.Entities
         public Guid EventId { get; set; }
 
         // pre-event
-        public IntentStatus Intent { get; set; }
-        public ApprovalStatus Approval { get; set; }
+        public IntentStatus? Intent { get; set; }
+        public ApprovalStatus Approval { get; set; } = ApprovalStatus.APPROVED;
         public bool Attended { get; set; }
 
         // post-event experience
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
-        public User User { get; set; }
+        public User Participant { get; set; }
         public Event Event { get; set; }
     }
 }

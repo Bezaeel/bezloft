@@ -10,7 +10,7 @@ public class RSVPConfiguration : IEntityTypeConfiguration<RSVP>
     {
         builder.HasKey(x => new {x.UserId, x.EventId});
 
-        builder.HasOne(x => x.User)
+        builder.HasOne(x => x.Participant)
             .WithMany(x => x.RSVPs)
             .HasForeignKey(x => x.UserId);
 

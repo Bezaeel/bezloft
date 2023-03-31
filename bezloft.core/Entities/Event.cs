@@ -1,9 +1,4 @@
 ﻿using bezloft.core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bezloft.core.Entities;
 
@@ -15,6 +10,9 @@ public class Event : BaseEntity
     public string Description { get; set; }
     public EventVisibility Visibility { get; set; }
     public int Limit { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
+    // location
     public User ContactPerson { get; set; }
     public List<RSVP> RSVPs { get; set; }
 

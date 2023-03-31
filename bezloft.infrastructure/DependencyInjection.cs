@@ -1,4 +1,4 @@
-﻿using bezloft.infrastructure.Common.Interfaces;
+﻿using bezloft.application.Common.Interfaces;
 using bezloft.infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

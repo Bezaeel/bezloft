@@ -1,5 +1,5 @@
-﻿using bezloft.core.Entities;
-using bezloft.infrastructure.Common.Interfaces;
+﻿using bezloft.application.Common.Interfaces;
+using bezloft.core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
