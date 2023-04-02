@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+    db:
+        container_name: mysql
+        image: mysql:latest
+        restart: always
+        ports:
+          - 3306:3306
+        environment:
+          - MYSQL_DATABASE= db
+          - MYSQL_ROOT_PASSWORD=<password>
+        networks:
+            - bezloft
+    bezloft.api:
+        image: ${DOCKER_REGISTRY-}bezloftapi
+        build:
+            context: .
+            dockerfile: bezloft.api/Dockerfile
+        ports:
+            - '3000:3000'
+        depends_on:
+            - db
+        networks:
+            - bezloft
+  
+networks:
+  bezloft:
+    driver: bridge
