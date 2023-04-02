@@ -14,14 +14,10 @@ public class GetEventParticipantsQuery : IRequest<BaseResponse<List<GetEventPart
     public Guid Id { get; set; }
 }
 
-public class GetEventParticipantsDTO
-{
-    public Guid id { get; set; }
-}
-
 public class GetEventParticipantsResponseDTO
 {
     public Guid id { get; set; }
+    public string name { get; set; }
 }
 
 public class GetEventParticipantsHandler : IRequestHandler<GetEventParticipantsQuery, BaseResponse<List<GetEventParticipantsResponseDTO>>>
@@ -39,15 +35,12 @@ public class GetEventParticipantsHandler : IRequestHandler<GetEventParticipantsQ
 
     public async Task<BaseResponse<List<GetEventParticipantsResponseDTO>>> Handle(GetEventParticipantsQuery request, CancellationToken cancellationToken)
     {
-        var result = _dbContext.Events
-            .Include(x => x.RSVPs)
-            .Where(y => y.Id == request.Id)
-            .Select(x => x.RSVPs)
+        var result = _dbContext.RSVPs
+            .Where(y => y.EventId == request.Id)
+            .Select(x => x.Participant)
             .ToList();
 
-        var _ = result[0];
-
-        var res = _mapper.Map<List<GetEventParticipantsResponseDTO>>(_);
+        var res = _mapper.Map<List<GetEventParticipantsResponseDTO>>(result);
 
         return new BaseResponse<List<GetEventParticipantsResponseDTO>>
         {

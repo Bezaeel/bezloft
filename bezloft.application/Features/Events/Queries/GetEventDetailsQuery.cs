@@ -14,14 +14,15 @@ public class GetEventDetailsDTO
 public class GetEventDetailsResponseDTO
 {
     public Guid id { get; set; }
+    public string name { get; set; }
 }
 
-public class GetEventDetailsQuery : IRequest<BaseResponse<List<GetEventDetailsResponseDTO>>>
+public class GetEventDetailsQuery : IRequest<BaseResponse<GetEventDetailsResponseDTO>>
 {
     public Guid Id { get; set; }
 }
 
-public class GetEventDetailsHandler : IRequestHandler<GetEventDetailsQuery, BaseResponse<List<GetEventDetailsResponseDTO>>>
+public class GetEventDetailsHandler : IRequestHandler<GetEventDetailsQuery, BaseResponse<GetEventDetailsResponseDTO>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly ILogger<GetEventDetailsHandler> _logger;
@@ -34,15 +35,14 @@ public class GetEventDetailsHandler : IRequestHandler<GetEventDetailsQuery, Base
         _mapper = mapper;
     }
 
-    public async Task<BaseResponse<List<GetEventDetailsResponseDTO>>> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse<GetEventDetailsResponseDTO>> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
         var entity = _dbContext.Events
-            .Where(x => x.Id == request.Id)
-            .ToList();
+            .FirstOrDefault(x => x.Id == request.Id);
 
-        var result = _mapper.Map<List<GetEventDetailsResponseDTO>>(entity);
+        var result = _mapper.Map<GetEventDetailsResponseDTO>(entity);
 
-        return new BaseResponse<List<GetEventDetailsResponseDTO>>
+        return new BaseResponse<GetEventDetailsResponseDTO>
         {
             Status = true,
             Message = "success",

@@ -7,6 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace bezloft.application.Features.RSVPs.Commands
 {
+    public class InviteDTO
+    {
+        public Guid userId { get; set; }
+    }
     public class InviteParticipantCommand : IRequest<BaseResponse>
     {
         public Guid UserId { get; set; }

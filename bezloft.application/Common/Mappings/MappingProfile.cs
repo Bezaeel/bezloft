@@ -1,7 +1,9 @@
 using System.Reflection;
 using AutoMapper;
+using bezloft.application.Features.Events.Commands;
 using bezloft.application.Features.Events.Queries;
 using bezloft.application.Features.Profile.Queries;
+using bezloft.application.Features.RSVPs.Commands;
 using bezloft.core.Entities;
 
 namespace Bezsoft.Application.Common.Mappings;
@@ -12,14 +14,23 @@ public class MappingProfile : Profile
     {
         ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
 
-        CreateMap<Event, GetEventDetailsResponseDTO>()
-            .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+        CreateMap<CreateEventCommand, Event>();
+        CreateMap<InviteParticipantCommand, RSVP>();
+        CreateMap<PatchEventCommandCommand, Event>();
 
-        CreateMap<RSVP, GetEventParticipantsResponseDTO>()
-            .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+        CreateMap<Event, GetEventDetailsResponseDTO>()
+            .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<User, GetEventParticipantsResponseDTO>()
+            .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.Name));
+
 
         CreateMap<RSVP, GetContactPersonEventsResponseDTO>()
             .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+
+        
     }
 
     private void ApplyMappingsFromAssembly(Assembly assembly)

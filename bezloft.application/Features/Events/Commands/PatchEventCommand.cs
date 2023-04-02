@@ -11,29 +11,27 @@ namespace bezloft.application.Features.Events.Commands;
 
 public class PatchEventCommandDTO
 {
-    public string name { get; set; }
-    public string description { get; set; }
-    public int limit { get; set; }
-    public EventVisibility visibility { get; set; }
-    public DateTime start { get; set; }
-    public DateTime end { get; set; }
+    public string? description { get; set; }
+    public EventVisibility? visibility { get; set; }
+    public int? limit { get; set; }
+    public DateTime? start { get; set; }
+    public DateTime? end { get; set; }
 }
 
 public class PatchEventCommandCommand : IRequest<BaseResponse>
 {
-    public string Name { get; set; }
-    public EventVisibility Visibility { get; set; }
-    public int Limit { get; set; }
-    public string Description { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime End { get; set; }
+    public Guid Id { get; set; }
+    public int? Limit { get; set; }
+    public string? Description { get; set; }
+    public EventVisibility? Visibility { get; set; }
+    public DateTime? Start { get; set; }
+    public DateTime? End { get; set; }
 }
 
 public class PatchEventCommandCommandValidator : AbstractValidator<PatchEventCommandCommand>
 {
     public PatchEventCommandCommandValidator()
     {
-        RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("name is required");
     }
 }
 
@@ -53,7 +51,19 @@ public class PatchEventCommandCommandHandler : IRequestHandler<PatchEventCommand
     {
         try
         {
-            var entity = _mapper.Map<Event>(request);
+            var found = _dbContext.Events.FirstOrDefault(x => x.Id == request.Id);
+
+            if (found == null)
+            {
+                return new BaseResponse
+                {
+                    Status = false,
+                    Message = "cannot find event",
+                };
+            }
+
+            var entity = _mapper.Map(request, found);
+            entity.UpdatedAt = DateTime.UtcNow;
 
             _dbContext.Events.Update(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

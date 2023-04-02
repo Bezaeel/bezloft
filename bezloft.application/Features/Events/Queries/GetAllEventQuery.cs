@@ -9,13 +9,13 @@ using Microsoft.Extensions.Logging;
 namespace bezloft.application.Features.Events.Queries;
 
 
-public class GetAllEventQueryQuery : IRequest<BaseResponse<PagedModel<Event>>>
+public class GetAllEventQuery : IRequest<BaseResponse<PagedModel<Event>>>
 {
     public int page { get; set; }
     public int limit { get; set; }
 }
 
-public class GetAllEventQueryHandler : IRequestHandler<GetAllEventQueryQuery, BaseResponse<PagedModel<Event>>>
+public class GetAllEventQueryHandler : IRequestHandler<GetAllEventQuery, BaseResponse<PagedModel<Event>>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly ILogger<GetAllEventQueryHandler> _logger;
@@ -28,7 +28,7 @@ public class GetAllEventQueryHandler : IRequestHandler<GetAllEventQueryQuery, Ba
         _mapper = mapper;
     }
 
-    public async Task<BaseResponse<PagedModel<Event>>> Handle(GetAllEventQueryQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse<PagedModel<Event>>> Handle(GetAllEventQuery request, CancellationToken cancellationToken)
     {
         var query = _dbContext.Events;
 

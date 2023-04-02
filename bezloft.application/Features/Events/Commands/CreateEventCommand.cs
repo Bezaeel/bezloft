@@ -12,7 +12,7 @@ namespace bezloft.application.Features.Events.Commands;
 public class CreateEventDTO
 {
     public string name { get; set; }
-    public Guid contactPersonId { get; set; }
+    //public Guid contactPersonId { get; set; }
     public string description { get; set; }
     public int limit { get; set; }
     public EventVisibility visibility { get; set; }
