@@ -9,7 +9,7 @@ namespace bezloft.core.Entities
 {
     public class RSVP : BaseEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public Guid UserId { get; set; }
         public Guid EventId { get; set; }
 
